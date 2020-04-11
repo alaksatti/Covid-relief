@@ -134,9 +134,6 @@ fix_inconsistencies(results)
 for entry in results:
     siteTime_format(entry, entry['siteTime'])
 
-
-
-
 def save_to_csv(results):
     # save to csv file
     
