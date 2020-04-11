@@ -8,7 +8,7 @@ import os.path, time
 import datetime
 import csv
 import json
-from modifyscrape import fix_inconsistencies
+from updateresults import fix_inconsistencies
 
 url = 'https://www.uwkc.org/free-meals-during-school-closures/'
 response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
