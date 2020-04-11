@@ -5,8 +5,9 @@ import urllib.request
 import time
 from bs4 import BeautifulSoup
 import os.path, time
-from datetime import datetime
+import datetime
 import csv
+import json
 
 
 url = 'https://www.uwkc.org/free-meals-during-school-closures/'
@@ -33,10 +34,17 @@ for block in blocks:
                 locations = {
                     'siteName':route,
                     'siteStatus': 'Open',
-                    'siteLocation':specs[i],
+                    'siteAddress':specs[i],
                     'siteState':'WA',
+                    'siteZip': '',
                     'siteCounty': county,
-                    '_updatedOn': time.ctime(os.path.getmtime('scraper.py'))
+                    'contactPhone': '',
+                    'breakfastTime': '',
+                    'lunchTime': '',
+                    'snackTimeAM': '',
+                    'snackTimePM': '',
+                    'dinnerSupperTime': '',
+                    '_updatedOn': time.ctime(os.path.getmtime('scraper.py')),
                 }
                 results.append(locations)
         else:
@@ -45,18 +53,27 @@ for block in blocks:
                 
             locations = {
                 'siteName':specs[0],
-                'siteStatus': 'Open',
+                'siteStatus': '',
                 'siteOperation':specs[1],
                 'siteState':'WA',
+                'siteZip': '',
                 'siteDistrict': district,
                 'siteCounty': county,
-                '_updatedOn': time.ctime(os.path.getmtime('scraper.py'))
+                'contactPhone': '',
+                'breakfastTime': '',
+                'lunchTime': '',
+                'snackTimeAM': '',
+                'snackTimePM': '',
+                'dinnerSupperTime': '',
+                '_updatedOn': time.ctime(os.path.getmtime('scraper.py')),
             }
             if infolength > 2:
                 locations['siteOperation']=specs[2]
                 locations['siteAddress']=specs[1]
             results.append(locations)
 
+
+print(results[65])
 
 with open('washingtonscraper_1.csv', 'w', newline='') as f:
     thewriter = csv.writer(f)
