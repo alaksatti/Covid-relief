@@ -85,6 +85,8 @@ for block in blocks:
 
 
 def siteTime_format(entry, dayandtime):
+    # separates date and time
+    # takes into account range denoted by ' - ' and '&'
     days = ['M', 'T', 'W', 'TH', 'F', 'Sa', 'Su']
 
     if dayandtime is None or dayandtime is '':
