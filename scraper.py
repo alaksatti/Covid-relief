@@ -57,8 +57,6 @@ for block in blocks:
                 }
                 results.append(locations)
         else:
-
-            datetime = specs[1].split('-', 1)
                 
             locations = {
                 'siteName':specs[0],
@@ -81,7 +79,7 @@ for block in blocks:
             }
 
             if infolength > 2:
-                locations['siteOperation']=specs[2]
+                locations['siteTime']=specs[2]
                 locations['siteAddress']=specs[1]
             results.append(locations)
 
@@ -127,13 +125,12 @@ for entry in results:
         entry['siteTime'] = 'Visit district page for more info'
         entry['siteAddress'] = 'Pickup at 33 locations, visit district page'
     if entry['siteName'] == 'Northshore School District students':
-        entry['contactPhone'] = 'Northshore School District students'
-        entry['siteTime'] = 'Serving pre-rder meals, visit district page for more info'
+        entry['siteTime'] = 'Serving pre-order meals, visit district page for more info'
     if entry['siteName'] == 'Riverview School District students':
-        entry['siteTime'] = 'Serving pre-rder meals, visit district page for more info'
+        entry['siteTime'] = 'Serving pre-order meals, visit district page for more info'
         entry['siteAddress'] = 'Cherry Valley Elementary and Carnation Elementary'
     if entry['siteName'] == 'Snoqualmie Valley School District students':
-        entry['siteTime'] = 'Serving pre-rder meals for Snoqualmie Valley School District students, details to come'
+        entry['siteTime'] = 'Serving pre-order meals for Snoqualmie Valley School District students, details to come'
         entry['siteAddress'] = 'Details to come'
         entry['startDate'] = '03/18/2020'
     if entry['siteName'] == 'Vashon Island School District students':
@@ -189,17 +186,21 @@ for entry in results:
         entry['daysofOperation'] = 'T, F'
         entry['siteTime'] = '10:00AM-12:00PM'
         entry['siteAddress'] = 'Morning routine elementary bus routes'
-        
+    if entry['siteName'] == 'Port Angeles High School-pick up on the Service Rd behind the HS. Entrance to':
+        entry['siteName'] = 'Port Angeles High School'
+        entry['daysofOperation'] = 'T, F'
+        entry['siteTime'] = 'M-F 11:30am – 12:15pm'
+        entry['siteAddress'] = '304 E Park Ave, Port Angeles  -  pick up on the Service Rd behind the HS. Entrance to Service Rd is off Park (on west side of school)'
 
 results.append(
     {
                 'siteName':'ROUTE 3:',
                 'siteStatus': '',
-                'siteOperation': '',
                 'siteState':'WA',
                 'siteZip': '',
                 'siteDistrict': '',
                 'siteCounty': 'Adams County',
+                'siteAddress': 'Yellow Camp',
                 'contactPhone': '',
                 'siteTime': '11:30 - 11:45 AM',
                 'breakfastTime': '',
@@ -213,10 +214,18 @@ results.append(
 
 
 def create_csv(results):
+    # grab fieldnames in same order as model
+    '''
     fieldnames = []
-
     for fields in results[0].keys():
         fieldnames.append(fields)
+    '''
+
+    # fieldnames order in accordance to data 
+    fieldnames = ['siteName', 'siteTime',  'siteAddress', 'siteDistrict', 'siteCounty',
+                  'siteState', 'siteZip', 'daysofOperation', 'contactPhone', 'startDate',
+                  'breakfastTime','lunchTime', 'snackTimeAM', 'dinnerSupperTime', 'snackTimePM',
+                  'siteStatus', 'endDate', '_updatedOn'] 
 
     with open('washington_1.csv', 'w', newline='') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
