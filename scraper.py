@@ -36,11 +36,12 @@ for block in blocks:
                     'siteLocation':specs[i],
                     'siteState':'WA',
                     'siteCounty': county,
-                    # '_createdOn': datetime.fromtimestamp(os.path.getctime('scraper.py')),
                     '_updatedOn': time.ctime(os.path.getmtime('scraper.py'))
                 }
                 results.append(locations)
         else:
+
+            datetime = specs[1].split('-', 1)
                 
             locations = {
                 'siteName':specs[0],
@@ -49,7 +50,6 @@ for block in blocks:
                 'siteState':'WA',
                 'siteDistrict': district,
                 'siteCounty': county,
-                #'_createdOn': time.ctime(os.path.getctime('scraper.py')),
                 '_updatedOn': time.ctime(os.path.getmtime('scraper.py'))
             }
             if infolength > 2:
@@ -57,11 +57,7 @@ for block in blocks:
                 locations['siteAddress']=specs[1]
             results.append(locations)
 
-print(results[65])
-
-
 
 with open('washingtonscraper_1.csv', 'w', newline='') as f:
     thewriter = csv.writer(f)
-
     thewriter.writerow(results)
