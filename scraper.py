@@ -83,11 +83,56 @@ for block in blocks:
                 locations['siteAddress']=specs[1]
             results.append(locations)
 
-#Manually fixing mutliple specific entries due to inconsistent formatting between entries
 
-# print([element for element in results if element['siteName'] == 'The Boys and Girls Club will be delivering meals to the following locations:'])
+def siteTime_format(entry, dayandtime):
+    days = ['M', 'T', 'W', 'TH', 'F', 'Sa', 'Su']
+
+    if dayandtime is None or dayandtime is '':
+        return
+    
+    if '&' in dayandtime:
+        dayandtime.replace('&', ', ')
+        dayandtime.split(' ')
+        entry['daysofOperation'] = dayandtime[0]
+        entry['siteTime'] = dayandtime[1]
+
+    #if '-' in dayandtime and dayandtime[0].isalpha():
+    if dayandtime[1] is '-':
+        dayandtime = dayandtime.split(' ', 1)
+        entry['siteTime'] = dayandtime[1]
+        opdays = str(dayandtime[0])
+        operationdays = []
+
+        for i in range(0, len(days)):
+            if opdays[0] == days[i]:
+                while i < len(days) and days[i] != opdays[2]:
+                    operationdays.append(days[i])
+                    i+=1
+                operationdays.append(days[i])
+                entry['daysofOperation'] = (str(operationdays)).strip('][')
+
+    
+# Manually fixing mutliple specific entries due to inconsistent formatting between entries
 
 for entry in results:
+    if entry['siteName'] == 'Clear Lake Covenant Church':
+        entry['siteTime'] = 'M-F 11:00AM-11:30AM'
+    if entry['siteName'] == 'College Place High School (CPHS)':
+        entry['siteTime'] = 'M-F 11:30AM-1:00PM'
+    if entry['siteName'] == 'Vista Terrace Park':
+        entry['siteTime'] = 'M-F 11:00AM-1:00PM'
+    if entry['siteName'] == 'Sunnyside High School':
+        entry['siteTime'] = 'M-F 10:00AM-11:00AM'
+    if entry['siteName'] == 'Sierra Vista Middle School':
+        entry['siteTime'] = 'M-F 10:30AM-11:30AM'
+    if entry['siteName'] == 'Washington Elementary School':
+        entry['siteTime'] = 'M-F 11:00AM-12:30PM'
+    if entry['siteName'] == 'Outlook Elementary School':
+        entry['siteTime'] = 'M-F 11:00AM-1:00PM'
+    if entry['siteName'] == 'Sun Valley Elementary School':
+        entry['siteTime'] = 'M-F 11:30AM-PM12:30PM'
+    if entry['siteName'] == 'Chief Kamiakin Elementary School':
+        entry['siteTime'] = 'M-F 12:00pm-1:00PM'
     if entry['siteName'] == 'The Boys and Girls Club will be delivering meals to the following locations:':
         results.remove(entry)
     if entry['siteName'] == 'Mansfield School':
@@ -104,7 +149,7 @@ for entry in results:
         entry['siteTime'] = 'Delivery, Contact to be added to list.'
         entry['startDate'] = '03/23/2020'
         entry['siteAddress'] = ''
-    if entry['siteName'] == 'Mansfield School':
+    if entry['siteName'] == 'Orient School':
         entry['contactPhone'] = '509-684-6873'
         entry['siteTime'] = 'Delivery, Contact to be added to list.'
         entry['siteAddress'] = ''
@@ -188,8 +233,8 @@ for entry in results:
         entry['siteAddress'] = 'Morning routine elementary bus routes'
     if entry['siteName'] == 'Port Angeles High School-pick up on the Service Rd behind the HS. Entrance to':
         entry['siteName'] = 'Port Angeles High School'
-        entry['daysofOperation'] = 'T, F'
-        entry['siteTime'] = 'M-F 11:30am – 12:15pm'
+        entry['daysofOperation'] = 'M, T, W, TH, F'
+        entry['siteTime'] = '11:30am – 12:15pm'
         entry['siteAddress'] = '304 E Park Ave, Port Angeles  -  pick up on the Service Rd behind the HS. Entrance to Service Rd is off Park (on west side of school)'
 
 results.append(
@@ -212,7 +257,6 @@ results.append(
     }
 )
 
-
 def create_csv(results):
     # grab fieldnames in same order as model
     '''
@@ -233,5 +277,8 @@ def create_csv(results):
         writer.writeheader()
         writer.writerows(results)
 
+for entry in results:
+    siteTime_format(entry, entry['siteTime'])
 
 create_csv(results)
+
