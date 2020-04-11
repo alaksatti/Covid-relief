@@ -144,7 +144,7 @@ def save_to_csv(results):
         fieldnames.append(fields)
     '''
 
-    # fieldnames order in accordance to most available data 
+    # grab fieldnames in accordance to most available data 
     fieldnames = ['siteName', 'siteTime',  'siteAddress', 'dinnerSupperTime', 'siteDistrict', 'siteCounty',
                   'siteState', 'siteZip', 'daysofOperation', 'contactPhone', 'startDate',
                   'breakfastTime','lunchTime', 'snackTimeAM', 'snackTimePM',
