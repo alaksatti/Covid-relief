@@ -14,6 +14,8 @@ url = 'https://www.uwkc.org/free-meals-during-school-closures/'
 response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
 soup = BeautifulSoup(response.content, 'lxml')
 
+# parse data from site
+
 blocks = soup.find_all('div', {'class': 'accordion'})
 results = []
 for block in blocks:
@@ -128,7 +130,16 @@ def siteTime_format(entry, dayandtime):
 
 fix_inconsistencies(results)
 
-def create_csv(results):
+# format date and time per entry 
+for entry in results:
+    siteTime_format(entry, entry['siteTime'])
+
+
+
+
+def save_to_csv(results):
+    # save to csv file
+    
     # grab fieldnames in same order as model
     '''
     fieldnames = []
@@ -148,8 +159,5 @@ def create_csv(results):
         writer.writeheader()
         writer.writerows(results)
 
-for entry in results:
-    siteTime_format(entry, entry['siteTime'])
-
-create_csv(results)
+save_to_csv(results)
 
