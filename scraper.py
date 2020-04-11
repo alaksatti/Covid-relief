@@ -111,10 +111,18 @@ def siteTime_format(entry, dayandtime):
                 operationdays.append(days[i])
                 entry['daysofOperation'] = (str(operationdays)).strip('][')
 
-    
+    elif dayandtime[0].isalpha():
+        dayandtime.split(' ')
+        entry['daysofOperation'] = dayandtime[0]
+        entry['siteTime'] = dayandtime[1]
+                
 # Manually fixing mutliple specific entries due to inconsistent formatting between entries
 
 for entry in results:
+#    if entry['siteName'] == 'Carriage Crest Elementary':
+#        print(entry['siteTime'])
+#        siteTime_format(entry, entry['siteTime'])
+#        print(entry)
     if entry['siteName'] == 'Clear Lake Covenant Church':
         entry['siteTime'] = 'M-F 11:00AM-11:30AM'
     if entry['siteName'] == 'College Place High School (CPHS)':
